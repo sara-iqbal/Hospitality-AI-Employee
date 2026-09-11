@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hospitality Enquiry AI Employee, a Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F2F4F1;
+    --panel: #FFFFFF;
+    --ink: #17211F;
+    --ink-soft: #4B5652;
+    --line: #DCE3DF;
+    --teal: #1F5C56;
+    --teal-soft: #E7EFEC;
+    --rust: #B0463F;
+    --rust-soft: #F7E9E7;
+    --brass: #B4863A;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+  }
+  h1, h2, h3, .display{
+    font-family: 'Newsreader', serif;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0;
+  }
+  .wrap{
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+  header.top{
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  header.top .wrap{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand{
+    font-family: 'Newsreader', serif;
+    font-size: 19px;
+    letter-spacing: 0.2px;
+    line-height: 1.3;
+  }
+  .brand span{
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: 0.2px;
+  }
+  nav.top-links a{
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    margin-left: 22px;
+  }
+  nav.top-links a:hover{ color: var(--teal); }
+
+  section.hero{
+    padding: 76px 0 56px;
+  }
+  .hero .wrap{
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 48px;
+    align-items: end;
+  }
+  .hero h1{
+    font-size: 46px;
+    line-height: 1.14;
+    max-width: 560px;
+  }
+  .hero p.lede{
+    margin-top: 18px;
+    max-width: 480px;
+    color: var(--ink-soft);
+    font-size: 16.5px;
+  }
+  .hero-stat{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 26px 28px;
+  }
+  .hero-stat .num{
+    font-family: 'Newsreader', serif;
+    font-size: 54px;
+    color: var(--teal);
+    line-height: 1;
+  }
+  .hero-stat .label{
+    margin-top: 6px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+  }
+  .hero-stat .compare{
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .hero-stat .compare b{ color: var(--rust); font-weight: 600; }
+
+  section.note{
+    padding: 6px 0 40px;
+  }
+  .note p{
+    font-size: 14px;
+    color: var(--ink-soft);
+    max-width: 720px;
+  }
+
+  section.problems{
+    padding: 50px 0 60px;
+    border-top: 1px solid var(--line);
+  }
+  section.problems h2{
+    font-size: 28px;
+    max-width: 520px;
+  }
+  section.problems > .wrap > p.intro{
+    color: var(--ink-soft);
+    max-width: 620px;
+    margin-top: 14px;
+    font-size: 15.5px;
+  }
+  .problem-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+    padding: 26px 0;
+    border-top: 1px solid var(--line);
+  }
+  .problem-row:last-child{ border-bottom: 1px solid var(--line); }
+  .problem-row .p-name{
+    font-family: 'Newsreader', serif;
+    font-size: 19px;
+  }
+  .problem-row .p-desc{
+    color: var(--ink-soft);
+    font-size: 14.5px;
+  }
+  .problem-row .p-fix{
+    font-size: 14.5px;
+  }
+  .problem-row .p-fix .tag{
+    display: inline-block;
+    font-size: 12.5px;
+    color: var(--teal);
+    background: var(--teal-soft);
+    padding: 2px 9px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  section.pipeline{
+    padding: 56px 0 60px;
+    border-top: 1px solid var(--line);
+  }
+  section.pipeline h2{ font-size: 28px; }
+  .steps{
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+  }
+  .step{
+    position: relative;
+    padding: 0 16px 0 0;
+    border-left: 2px solid var(--line);
+    padding-left: 18px;
+  }
+  .step:first-child{ border-left: 2px solid var(--teal); }
+  .step .n{
+    font-family: 'Newsreader', serif;
+    font-size: 15px;
+    color: var(--teal);
+  }
+  .step .t{
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 6px;
+  }
+  .step .d{
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+
+  section.charts{
+    padding: 56px 0 70px;
+    border-top: 1px solid var(--line);
+  }
+  section.charts h2{ font-size: 28px; }
+  .chart-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 30px;
+  }
+  .chart-card{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 20px 20px 8px;
+  }
+  .chart-card h3{
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .chart-card p{
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin: 0 0 12px;
+  }
+  .chart-card canvas{ max-height: 260px; }
+  .chart-card.wide{ grid-column: span 2; }
+
+  section.record{
+    padding: 50px 0 70px;
+    border-top: 1px solid var(--line);
+  }
+  section.record h2{ font-size: 28px; max-width: 560px; }
+  .record-grid{
+    margin-top: 26px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .record-panel{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 20px 22px;
+  }
+  .record-panel h3{
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 12px;
+    color: var(--ink-soft);
+  }
+  .msg{
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink);
+    font-style: italic;
+    font-family: 'Newsreader', serif;
+  }
+  pre{
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    background: var(--teal-soft);
+    padding: 14px 16px;
+    border-radius: 5px;
+    overflow-x: auto;
+    color: #163430;
+  }
+
+  footer{
+    padding: 34px 0 50px;
+    border-top: 1px solid var(--line);
+  }
+  footer .wrap{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  footer a{ color: var(--teal); text-decoration: none; }
+  footer a:hover{ text-decoration: underline; }
+  .footer-links{ display: flex; gap: 20px; flex-wrap: wrap; }
+  .footer-links a{ margin-right: 20px; }
+  .footer-links a:last-child{ margin-right: 0; }
+
+  @media (max-width: 880px){
+    .hero .wrap{ grid-template-columns: 1fr; }
+    .problem-row{ grid-template-columns: 1fr; gap: 8px; }
+    .steps{ grid-template-columns: 1fr 1fr; row-gap: 20px; }
+    .chart-grid{ grid-template-columns: 1fr; }
+    .chart-card.wide{ grid-column: span 1; }
+    .record-grid{ grid-template-columns: 1fr; }
+    .hero h1{ font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">Enquiry Desk<span>a hospitality prototype</span></div>
+    <nav class="top-links">
+      <a href="#problems">Problems</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#data">Data</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>What happens between a guest's message and your reply, measured.</h1>
+      <p class="lede">A prototype AI employee for hospitality enquiries, built on a synthetic dataset of 1,200 guest messages modelled on how small hotel groups actually receive bookings today: by phone, email, WhatsApp, chat and booking sites.</p>
+    </div>
+    <div class="hero-stat">
+      <div class="num" id="heroNum">18.1s</div>
+      <div class="label">average time to a first reply, AI employee</div>
+      <div class="compare">Compared with <b id="heroCompare">3h 10m</b> average today, with 59% of enquiries waiting over an hour.</div>
+    </div>
+  </div>
+</section>
+
+<section class="note">
+  <div class="wrap">
+    <p>All figures on this page come from a synthetic dataset generated for this prototype, not from a real operator's records. The dataset and the full analysis are open in the accompanying notebook, linked at the bottom of this page.</p>
+  </div>
+</section>
+
+<section class="problems" id="problems">
+  <div class="wrap">
+    <h2>Five problems in one enquiry desk</h2>
+    <p class="intro">Each row below is one specific way an enquiry can be lost between the moment it arrives and the moment a booking should have happened, with what changes when an AI employee handles it instead.</p>
+
+    <div class="problem-row">
+      <div class="p-name">Slow first response</div>
+      <div class="p-desc">Enquiries received outside working hours can sit for hours. By the time someone replies, the guest has often already booked elsewhere.</div>
+      <div class="p-fix"><span class="tag">Fixed</span><br>Every enquiry answered in about 18 seconds, at any hour, on every channel.</div>
+    </div>
+
+    <div class="problem-row">
+      <div class="p-name">Inconsistent qualification</div>
+      <div class="p-desc">Reading a free-text message and correctly capturing dates, room type and party size takes attention that gets rushed on a busy day. Roughly a third of enquiries get something wrong the first time.</div>
+      <div class="p-fix"><span class="tag">Fixed</span><br>Structured intent is extracted from every message the same way, every time, and flagged for a person only when something is genuinely unclear.</div>
+    </div>
+
+    <div class="problem-row">
+      <div class="p-name">Next action never arranged</div>
+      <div class="p-desc">Even a well-qualified enquiry can stall if nobody actually locks in a hold, a quote or a viewing before the conversation goes quiet.</div>
+      <div class="p-fix"><span class="tag">Fixed</span><br>A concrete next step is proposed and confirmed inside the same conversation, before the guest has to ask again.</div>
+    </div>
+
+    <div class="problem-row">
+      <div class="p-name">Fragmented customer records</div>
+      <div class="p-desc">An enquiry that comes in by phone lives in someone's notebook, one from WhatsApp lives on a personal phone, and nothing connects them if the same guest gets in touch twice.</div>
+      <div class="p-fix"><span class="tag">Fixed</span><br>Every enquiry, on every channel, lands in one record with the full conversation attached.</div>
+    </div>
+
+    <div class="problem-row">
+      <div class="p-name">No visibility for leadership</div>
+      <div class="p-desc">Without a single record of what came in, nobody can see which channel is underperforming or how much revenue is quietly at risk.</div>
+      <div class="p-fix"><span class="tag">Fixed</span><br>A live rollup by channel, with response times and revenue at risk visible without asking anyone to compile it.</div>
+    </div>
+  </div>
+</section>
+
+<section class="pipeline" id="pipeline">
+  <div class="wrap">
+    <h2>The path one enquiry takes</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="n">01</div>
+        <div class="t">Enquiry received</div>
+        <div class="d">Phone, email, WhatsApp, chat or a booking site message.</div>
+      </div>
+      <div class="step">
+        <div class="n">02</div>
+        <div class="t">Answered</div>
+        <div class="d">A helpful, specific reply sent in seconds, not hours.</div>
+      </div>
+      <div class="step">
+        <div class="n">03</div>
+        <div class="t">Qualified</div>
+        <div class="d">Dates, room type and party size extracted from the message.</div>
+      </div>
+      <div class="step">
+        <div class="n">04</div>
+        <div class="t">Next action arranged</div>
+        <div class="d">A hold, quote or viewing confirmed with the guest directly.</div>
+      </div>
+      <div class="step">
+        <div class="n">05</div>
+        <div class="t">Handed to the team</div>
+        <div class="d">Full context attached, only when a person is actually needed.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="charts" id="data">
+  <div class="wrap">
+    <h2>What the numbers show</h2>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>First response time</h3>
+        <p>Average time from enquiry to first reply</p>
+        <canvas id="chartResponse"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3>Where enquiries fall through</h3>
+        <p>Share of enquiries qualified, actioned and logged</p>
+        <canvas id="chartFunnel"></canvas>
+      </div>
+
+      <div class="chart-card wide">
+        <h3>Lost-enquiry rate by channel</h3>
+        <p>Before and after, across all five enquiry channels</p>
+        <canvas id="chartChannel"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3>Revenue at risk</h3>
+        <p>Estimated value of enquiries lost, GBP</p>
+        <canvas id="chartRevenue"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3>Enquiry volume by channel</h3>
+        <p>Out of 1,200 enquiries in the sample</p>
+        <canvas id="chartVolume"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="record">
+  <div class="wrap">
+    <h2>One enquiry, start to finish</h2>
+    <div class="record-grid">
+      <div class="record-panel">
+        <h3>What the guest sent</h3>
+        <p class="msg" id="sampleMessage">Loading...</p>
+      </div>
+      <div class="record-panel">
+        <h3>What lands in the customer record</h3>
+        <pre id="sampleRecord">Loading...</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>Prototype built to explore Zube's enquiry-handling model for hospitality operators. Dataset is synthetic.</div>
+    <div class="footer-links">
+      <a href="../Hospitality_AI_Employee_Prototype.ipynb">Open the notebook</a>
+      <a href="../data/hotel_enquiries.csv">Download the dataset</a>
+      <a href="../README.md">Read the write-up</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="data.js"></script>
+<script>
+const d = ZUBE_DEMO_DATA;
+
+const teal = "#1F5C56";
+const tealSoft = "#8FB8B3";
+const rust = "#B0463F";
+const brass = "#B4863A";
+const grid = "#DCE3DF";
+
+Chart.defaults.font.family = "Inter, sans-serif";
+Chart.defaults.color = "#4B5652";
+Chart.defaults.font.size = 12;
+
+document.getElementById("heroNum").textContent = d.avg_ai_response_sec + "s";
+const hrs = Math.floor(d.avg_baseline_response_min / 60);
+const mins = Math.round(d.avg_baseline_response_min % 60);
+document.getElementById("heroCompare").textContent = hrs + "h " + mins + "m";
+
+new Chart(document.getElementById("chartResponse"), {
+  type: "bar",
+  data: {
+    labels: ["Today", "AI employee"],
+    datasets: [{
+      label: "Minutes to first response",
+      data: [d.avg_baseline_response_min, d.avg_ai_response_sec / 60],
+      backgroundColor: [rust, teal],
+      borderRadius: 4,
+      barThickness: 46,
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: grid }, title: { display: true, text: "minutes" } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+new Chart(document.getElementById("chartFunnel"), {
+  type: "bar",
+  data: {
+    labels: ["Qualified", "Next action confirmed", "Record updated"],
+    datasets: [
+      { label: "Today", data: [d.pct_baseline_qualified, d.pct_baseline_next_action, d.pct_baseline_record_updated], backgroundColor: rust, borderRadius: 4 },
+      { label: "AI employee", data: [d.pct_ai_qualified, d.pct_ai_next_action, d.pct_ai_record_updated], backgroundColor: teal, borderRadius: 4 },
+    ]
+  },
+  options: {
+    plugins: { legend: { position: "bottom" } },
+    scales: {
+      y: { beginAtZero: true, max: 100, grid: { color: grid }, title: { display: true, text: "% of enquiries" } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+const channels = d.by_channel.map(c => c.channel);
+new Chart(document.getElementById("chartChannel"), {
+  type: "bar",
+  data: {
+    labels: channels,
+    datasets: [
+      { label: "Today", data: d.by_channel.map(c => c.baseline_lost_rate), backgroundColor: rust, borderRadius: 4 },
+      { label: "AI employee", data: d.by_channel.map(c => c.ai_lost_rate), backgroundColor: teal, borderRadius: 4 },
+    ]
+  },
+  options: {
+    plugins: { legend: { position: "bottom" } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: grid }, title: { display: true, text: "% enquiries lost" } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+new Chart(document.getElementById("chartRevenue"), {
+  type: "bar",
+  data: {
+    labels: ["Today", "AI employee"],
+    datasets: [{
+      data: [d.revenue_at_risk_baseline_gbp, d.revenue_at_risk_ai_gbp],
+      backgroundColor: [rust, teal],
+      borderRadius: 4,
+      barThickness: 46,
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: grid }, title: { display: true, text: "GBP" } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+new Chart(document.getElementById("chartVolume"), {
+  type: "bar",
+  data: {
+    labels: channels,
+    datasets: [{
+      data: d.by_channel.map(c => c.enquiries),
+      backgroundColor: brass,
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: "y",
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { beginAtZero: true, grid: { color: grid } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+const sample = {
+  message: "Looking for a room for 4 guests around 02 Jul, is a Family Suite free and is breakfast included?",
+  record: {
+    enquiry_id: "ENQ-00002",
+    channel: "WhatsApp",
+    response_time_sec: 21.4,
+    extracted_intent: {
+      room_type: "Family Suite",
+      guests: 4,
+      requested_date: "02 Jul",
+      extra_asks: ["breakfast"],
+      confidence: "high"
+    },
+    next_action_confirmed: true,
+    handoff_note: "Provisional hold placed. No human review needed.",
+    needs_human: false
+  }
+};
+document.getElementById("sampleMessage").textContent = "\u201C" + sample.message + "\u201D";
+document.getElementById("sampleRecord").textContent = JSON.stringify(sample.record, null, 2);
+</script>
+
+</body>
+</html>
